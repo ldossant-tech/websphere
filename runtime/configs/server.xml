@@ -4,19 +4,15 @@
         <feature>jdbc-4.3</feature>
     </featureManager>
 
-    <!-- Endpoints -->
     <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443"/>
 
-    <!-- Segurança básica p/ testes -->
     <quickStartSecurity userName="admin" userPassword="adminpwd"/>
 
-    <!-- JDBC Driver Postgres: apontamos para a pasta de shared resources do Liberty -->
     <library id="postgresLib">
         <fileset dir="${shared.resource.dir}/postgres" includes="*.jar"/>
     </library>
     <jdbcDriver id="postgresDriver" libraryRef="postgresLib"/>
 
-    <!-- DataSource padrão da aplicação -->
     <dataSource id="AppDS" jndiName="jdbc/appDS" transactional="true">
         <jdbcDriverRef ref="postgresDriver"/>
         <properties.postgresql
@@ -27,5 +23,6 @@
                 password="${env.POSTGRES_PASSWORD}"/>
     </dataSource>
 
-    <application id="app" location="app.war" type="war"/>
+    <!-- WAR em /config/apps e rota na raiz -->
+    <webApplication id="app" location="apps/app.war" contextRoot="/"/>
 </server>
